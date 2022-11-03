@@ -5,8 +5,6 @@ import { useAuth } from '../contexts/AuthContext';
 import { doc, updateDoc, arrayUnion, query, where, getDoc } from 'firebase/firestore';
 import Button from './Button';
 import ReactCSV from './ReactCSV';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { getAuth } from 'firebase/auth';
 
 import './Post.css';
 
@@ -16,9 +14,6 @@ export default function Post({ modalState, loggedInUser }) {
   const { accountType, currentUser, getSpecificUserDataById } = useAuth();
   const [loading, setLoading] = useState(false);
   const [alreadyApplied, setAlreadyApplied] = useState(false);
-
-  const auth = getAuth(app);
-  const [userrr] = useAuthState(auth);
 
   const collectionRef = collection(db, 'Teachers');
   const collectionRefStudents = collection(db, 'Students');
@@ -41,8 +36,6 @@ export default function Post({ modalState, loggedInUser }) {
       isApiSubscribed = false;
     };
   }, [modalState]);
-
-  console.log(userrr);
 
   async function getAllPosts() {
     const postsData = [];
