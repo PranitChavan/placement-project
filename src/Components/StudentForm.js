@@ -1,8 +1,6 @@
 import { useState } from 'react';
 import '../Components/StudentsForm.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import Button from 'react-bootstrap/Button';
-import { Col, Row, Form } from 'react-bootstrap';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 
@@ -14,6 +12,7 @@ export default function StudentForm() {
   const navigate = useNavigate();
 
   const inputHandler = (e) => {
+    console.log(e);
     const id = e.target.id;
     const value = e.target.value;
 
@@ -26,6 +25,7 @@ export default function StudentForm() {
     e.preventDefault();
     try {
       setLoading(true);
+      console.log(formData);
       await saveStudentsFormData(formData);
       await uploadResume(resumeFile);
     } catch (err) {
@@ -36,59 +36,108 @@ export default function StudentForm() {
   };
 
   return (
-    <Form onSubmit={submitHandler}>
-      <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridEmail">
-          <Form.Label>Email</Form.Label>
-          <Form.Control type="email" value={currentUser.email} />
-        </Form.Group>
+    <>
+      <div className="container register">
+        <form onSubmit={submitHandler}>
+          <div className="row">
+            <div className="col-md-3 register-left">
+              <img src="https://image.ibb.co/n7oTvU/logo_white.png" alt="" />
+              <h3>Welcome</h3>
+              <p>Please fill the correct details, as this details will be forwarded to the companies you applied for.</p>
+              <br />
+            </div>
+            <div className="col-md-9 register-right">
+              <div className="tab-content" id="myTabContent">
+                <div className="tab-pane fade show active" id="home" role="tabpanel" aria-labelledby="home-tab">
+                  <h3 className="register-heading">Student Form</h3>
+                  <div className="row register-form">
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          id="name"
+                          className="form-control mb-2"
+                          placeholder="Full Name *"
+                          value={currentUser.displayName}
+                          onChange={inputHandler}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control  mb-2"
+                          placeholder="Qualifications *"
+                     
+                          id="qualifications"
+        
+                          onChange={inputHandler}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control  mb-2"
+                          placeholder="Passing Year *"
+                
+                          id="passingYear"
+                          onChange={inputHandler}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          className="form-control  mb-2"
+                          placeholder="Skill *"
+               
+                          id="skills"
+                          onChange={inputHandler}
+                        />
+                      </div>
+                    </div>
+                    <div className="col-md-6">
+                      <div className="form-group">
+                        <input
+                          type="email"
+                          className="form-control  mb-2"
+                          placeholder="Your Email *"
+                          id="email"
+                          value={currentUser.email}
+                          onChange={inputHandler}
+                        />
+                      </div>
+                      <div className="form-group">
+                        <input
+                          type="text"
+                          name="txtEmpPhone"
+                          className="form-control  mb-2"
+                          placeholder="Your Phone *"
+                          id="contact"
+                          onChange={inputHandler}
+                        />
+                      </div>
 
-        <Form.Group as={Col} controlId="formGridName">
-          <Form.Label>Name</Form.Label>
-          <Form.Control type="text" value={currentUser.displayName} />
-        </Form.Group>
-      </Row>
-
-      <Form.Group className="mb-3" controlId="formGridAddress1">
-        <Form.Label>Address</Form.Label>
-        <Form.Control placeholder="1234 Main St" id="Address" onChange={inputHandler} />
-      </Form.Group>
-
-      <Form.Group className="mb-3" controlId="formGridAddress2">
-        <Form.Label>Address 2</Form.Label>
-        <Form.Control placeholder="Apartment, studio, or floor" />
-      </Form.Group>
-
-      <Row className="mb-3">
-        <Form.Group as={Col} controlId="formGridCity">
-          <Form.Label>City</Form.Label>
-          <Form.Control id="City" onChange={inputHandler} />
-        </Form.Group>
-
-        <Form.Group as={Col} controlId="formGridState">
-          <Form.Label>State</Form.Label>
-          <Form.Select defaultValue="Choose...">
-            <option>Choose...</option>
-            <option>...</option>
-          </Form.Select>
-        </Form.Group>
-
-        <Form.Group as={Col} controlId="formGridZip">
-          <Form.Label>Zip</Form.Label>
-          <Form.Control />
-        </Form.Group>
-      </Row>
-
-      <Form.Group className="mb-3" id="formGridCheckbox">
-        <Form.Check type="checkbox" label="Check me out" />
-      </Form.Group>
-
-      <label htmlFor="resume">Upload resume</label>
-      <input type="file" id="resume" required onChange={(e) => setResumeFile(e.target.files[0])} />
-
-      <Button variant="primary" type="submit" disabled={loading}>
-        Submit
-      </Button>
-    </Form>
+                      <div className="form-group mt-3">
+                        <label htmlFor="formFileDisabled" className="form-label">
+                          Uplode CV *
+                        </label>
+                        <input
+                          className="form-control"
+                          type="file"
+                          id="resume"
+                          required
+                          onChange={(e) => setResumeFile(e.target.files[0])}
+                        />
+                      </div>
+                      <input type="submit" className="btnRegister" value="Register" disabled={loading} />
+                    </div>
+                  </div>
+                </div>
+                <div className="tab-pane fade show" id="profile" role="tabpanel" aria-labelledby="profile-tab"></div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </>
   );
 }

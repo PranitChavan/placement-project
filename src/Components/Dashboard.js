@@ -1,11 +1,11 @@
 import { React, useState, useEffect } from 'react';
-import Logout from './Logout';
 import { useAuth } from '../contexts/AuthContext';
 import { useNavigate } from 'react-router-dom';
 import './Dashboard.css';
 import Post from './Post';
 import FormModal from './FormModal';
 import Button from './Button';
+import Navbar from './Navbar';
 
 export default function Dashboard() {
   const { currentUser, getSpecificUserDataById, accountType } = useAuth();
@@ -35,28 +35,29 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="container">
-      <section className="heading">
-        <h1>Dashboard</h1>
-      </section>
+    <>
+      <Navbar loggedInOrNot={currentUser} />
+      <div className="container">
+        <section className="heading">
+          <h1></h1>
+        </section>
 
-      <header>
-        <Button onClick={updateFormHandler} className={accountType(currentUser) === 'Teacher' ? 'hideDashBoardBtns' : ''}>
-          {loggedInUserData && loggedInUserData.isFormFilled ? 'Update form' : 'Fill form'}
-        </Button>
+        <header>
+          <Button onClick={updateFormHandler} className={accountType(currentUser) === 'Teacher' ? 'hideDashBoardBtns' : ''}>
+            {loggedInUserData && loggedInUserData.isFormFilled ? 'Update form' : 'Fill form'}
+          </Button>
 
-        <Button
-          onClick={() => setModalShow(true)}
-          className={accountType(currentUser) === 'Student' ? 'hideDashBoardBtns' : ''}
-        >
-          Create Post
-        </Button>
+          <Button
+            onClick={() => setModalShow(true)}
+            className={accountType(currentUser) === 'Student' ? 'hideDashBoardBtns' : ''}
+          >
+            Create Post
+          </Button>
+        </header>
 
-        <Logout />
-      </header>
-
-      <Post modalState={modalShow} loggedInUser={loggedInUserData} />
-      <FormModal show={modalShow} onHide={() => setModalShow(false)} />
-    </div>
+        <Post modalState={modalShow} loggedInUser={loggedInUserData} />
+        <FormModal show={modalShow} onHide={() => setModalShow(false)} />
+      </div>
+    </>
   );
 }

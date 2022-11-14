@@ -1,5 +1,5 @@
 import './App.css';
-import Login from './Components/Login';
+import Landing from './Components/Landing';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { AuthProvider } from './contexts/AuthContext';
 import StudentForm from './Components/StudentForm';
@@ -10,12 +10,12 @@ function App() {
   const { currentUser } = useAuth();
 
   const RequiredAuth = ({ children, operation }) => {
-    if (currentUser && operation === 'login') {
+    if (currentUser && operation === 'Landing') {
       return <Navigate to={'/Dashboard'} />;
     }
 
-    if (!currentUser && window.location.pathname !== '/Login') {
-      return <Navigate to={'/Login'} />;
+    if (!currentUser && window.location.pathname !== '/Landing') {
+      return <Navigate to={'/Landing'} />;
     }
 
     return children;
@@ -29,16 +29,16 @@ function App() {
             exact
             path="/"
             element={
-              <RequiredAuth operation={'login'}>
-                <Login />
+              <RequiredAuth operation={'Landing'}>
+                <Landing />
               </RequiredAuth>
             }
           ></Route>
           <Route
-            path="/Login"
+            path="/Landing"
             element={
-              <RequiredAuth operation={'login'}>
-                <Login />
+              <RequiredAuth operation={'Landing'}>
+                <Landing />
               </RequiredAuth>
             }
           ></Route>

@@ -8,7 +8,7 @@ const AuthContext = React.createContext();
 const googleProvider = new GoogleAuthProvider();
 const auth = getAuth(app);
 const collectionRef = collection(db, 'Students');
-const teacherAccountIds = ['T4wt7OULt0NwLEIhJt7vlA1o3UF3'];
+const teacherAccountIds = ['T4wt7OULt0NwLEIhJt7vlA1o3UF3', 'pM7xvd21TkPgw1WotSvTVWi68b53'];
 
 export function useAuth() {
   return useContext(AuthContext);
@@ -17,6 +17,7 @@ export function useAuth() {
 export function AuthProvider({ children }) {
   const [currentUser, setCurrentUser] = useState();
   const [loading, setLoading] = useState(true);
+  const [allJobPosts, setAllJobPosts] = useState([]);
 
   useEffect(() => {
     const unSub = auth.onAuthStateChanged((currUser) => {
@@ -149,6 +150,12 @@ export function AuthProvider({ children }) {
     return teacherAccount ? 'Teacher' : 'Student';
   }
 
+  function setJobPosts(post) {
+    setAllJobPosts((prev) => {
+      return [...prev, post];
+    });
+  }
+
   const value = {
     currentUser,
     signInWithGoogleAndSaveData,
@@ -159,6 +166,8 @@ export function AuthProvider({ children }) {
     getSpecificUserDataById,
     accountType,
     getAllStudentsData,
+    setJobPosts,
+    allJobPosts,
   };
   return <AuthContext.Provider value={value}>{!loading && children}</AuthContext.Provider>;
 }

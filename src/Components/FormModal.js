@@ -6,7 +6,7 @@ import { doc, updateDoc, arrayUnion } from 'firebase/firestore';
 
 export default function FormModal(props) {
   const [formData, setFormData] = useState();
-  const { currentUser } = useAuth();
+  const { currentUser, setJobPosts } = useAuth();
 
   const washingtonRef = doc(db, 'Teachers', currentUser.uid);
 
@@ -22,6 +22,7 @@ export default function FormModal(props) {
   const submitHandler = function (e) {
     e.preventDefault();
     saveJobPostingDetails();
+    setJobPosts(formData);
     props.onHide();
   };
 
@@ -38,7 +39,7 @@ export default function FormModal(props) {
   return (
     <Modal {...props} size="lg" aria-labelledby="contained-modal-title-vcenter" centered>
       <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Modal heading</Modal.Title>
+        <Modal.Title id="contained-modal-title-vcenter">Job Details</Modal.Title>
       </Modal.Header>
       <Modal.Body>
         <form onSubmit={submitHandler}>

@@ -1,9 +1,8 @@
+import { React, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../contexts/AuthContext';
-import './login.css';
-import { useState } from 'react';
 
-function Login() {
+export default function Login() {
   const { signInWithGoogleAndSaveData } = useAuth();
   const [loading, setLoading] = useState(false);
 
@@ -19,14 +18,11 @@ function Login() {
     }
     setLoading(false);
   };
-
   return (
     <form className="login-form">
-      <button type="button" disabled={loading} className={`google-btn login-form__btn`} onClick={signInHandler}>
+      <button type="button" disabled={loading} className={`btn btn-outline-success`} onClick={signInHandler}>
         Sign in with google
       </button>
     </form>
   );
 }
-
-export default Login;
